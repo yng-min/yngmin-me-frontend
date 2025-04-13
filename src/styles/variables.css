@@ -1,0 +1,25 @@
+:root {
+  --bg-color: #cccccd;
+  --text-color: #1b1b24;
+  --notion-bg-light: #cccccd;
+  --notion-text-light: #1b1b24;
+  --notion-bg-dark: #1b1b24;
+  --notion-text-dark: #cccccd;
+}
+
+[data-theme='light'] {
+  --bg-color: var(--bg-color);
+  --text-color: var(--text-color);
+  --notion-bg-light: var(--bg-color);
+  --notion-text-light: var(--text-color);
+  --notion-bg-dark: var(--text-color);
+  --notion-text-dark: var(--bg-color);
+}
+[data-theme='dark'] {
+  --bg-color: var(--text-color);
+  --text-color: var(--bg-color);
+  --notion-bg-light: var(--text-color);
+  --notion-text-light: var(--bg-color);
+  --notion-bg-dark: var(--bg-color);
+  --notion-text-dark: var(--text-color);
+}

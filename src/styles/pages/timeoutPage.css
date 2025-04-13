@@ -1,0 +1,12 @@
+.timeout-wrapper {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  flex-direction: column;
+  gap: 16px;
+}

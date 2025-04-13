@@ -1,0 +1,63 @@
+/* Global */
+.light-overlay,
+.dark-overlay {
+  position: fixed;
+  transition: top 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 1s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  will-change: transform, opacity;
+  contain: layout style paint;
+  display: none;
+  z-index: 9000;
+}
+
+
+/* Light theme */
+[data-theme='light'] .light-overlay { display: block; }
+
+.light-overlay.blossom1 {
+  top: -150%;
+  left: 10%;
+  width: 3000px;
+  height: 3000px;
+  background: radial-gradient(circle, #d31841 0%, transparent 70%);
+  opacity: 0.4;
+  mix-blend-mode: screen;
+  transform: translateX(-50%);
+}
+
+.light-overlay.blossom2 {
+  top: 30%;
+  left: 80%;
+  width: 3000px;
+  height: 3000px;
+  background: radial-gradient(circle, #ff1755 0%, transparent 70%);
+  opacity: 0.3;
+  mix-blend-mode: screen;
+  transform: translateX(-50%);
+}
+
+
+/* Dark theme */
+[data-theme='dark'] .dark-overlay { display: block; }
+
+.dark-overlay.sky {
+  top: -150%;
+  left: 10%;
+  width: 3000px;
+  height: 3000px;
+  background: radial-gradient(circle, #0a0727 0%, transparent 70%);
+  opacity: 0.15;
+  mix-blend-mode: multiply;
+  transform: translateX(-50%);
+}
+
+.dark-overlay.moon {
+  top: 30%;
+  left: 80%;
+  width: 3000px;
+  height: 3000px;
+  background: radial-gradient(circle, #d49f49 0%, transparent 70%);
+  opacity: 0.25;
+  mix-blend-mode: screen;
+  transform: translateX(-50%);
+}

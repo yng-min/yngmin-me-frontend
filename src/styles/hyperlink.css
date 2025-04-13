@@ -1,0 +1,20 @@
+a {
+  /* color: var(--link-color, #4c6ef5); */
+  text-decoration: none;
+}
+a:hover {
+  /* text-decoration: underline; */
+}
+
+[data-theme='light'] a {
+  --link-color: #1c3faa;
+}
+
+[data-theme='dark'] a {
+  --link-color: #91a7ff;
+}
+
+
+.notion a[class*='notion-hash-link'] {
+  color: red !important;
+}

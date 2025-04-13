@@ -1,0 +1,117 @@
+.notion-nav-header {
+  position: fixed;
+  z-index: 20;
+  width: 100%;
+  overflow: hidden; /* 혹시 blur 배경이 튀어나올 경우 대비 */
+  margin-bottom: 0rem;
+  transform: translateZ(0);
+}
+
+.blur-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px) brightness(1);
+  z-index: 0;
+  pointer-events: none;
+  transition: backdrop-filter 0ms ease;
+}
+
+.notion-nav-header h1 {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.notion-main-content {
+  padding-top: 16px;
+}
+
+h1.dotted-title {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-color);
+  margin: 0;
+  font-size: 18px;
+  text-align: center;
+  word-spacing: clamp(0.5em, 5vw, 0.75em);
+  z-index: 0;
+}
+
+.blur-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.custom-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  padding: 0 16px;
+}
+
+.logo {
+  position: absolute;
+  left: 1px;
+  top: 0;
+  height: 56px;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 0;
+  transition: transform 400ms ease;
+  transform-origin: 28px 28px; /* 중심점 명확히 지정 (width/2, height/2) */
+  will-change: transform, filter;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+  will-change: transform, filter;
+}
+
+body.custom-cursor-enabled .logo {
+  cursor: none;
+}
+
+body:not(.custom-cursor-enabled) .logo {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    left: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    left: 0px;
+  }
+}
+
+[data-theme='light'] .logo {
+  filter: brightness(0) saturate(200%) invert(9%) sepia(8%) saturate(2000%) hue-rotate(350deg) brightness(150%) contrast(110%);
+}
+
+[data-theme='dark'] .logo {
+  filter: brightness(0) saturate(100%) invert(90%) sepia(8%) saturate(150%) hue-rotate(10deg) brightness(100%) contrast(90%);
+}

@@ -1,0 +1,23 @@
+html.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.theme-transition body,
+html.theme-transition .notion,
+html.theme-transition .notion-page {
+  transition: none;
+}
+
+.theme-fade-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-color);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.3s cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.theme-fade-overlay.fade-out {
+  opacity: 0;
+}

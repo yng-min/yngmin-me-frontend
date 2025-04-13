@@ -1,0 +1,36 @@
+/* Global */
+body,
+html {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color);
+}
+
+
+/* Light theme */
+[data-theme='light'] .notion {
+  background-color: var(--notion-bg-light) !important;
+  color: var(--notion-text-light) !important;
+}
+
+
+/* Dark theme */
+[data-theme='dark'] .notion {
+  background-color: var(--notion-bg-dark) !important;
+  color: var(--notion-text-dark) !important;
+}
+
+[data-theme='dark'] .notion-page,
+[data-theme='dark'] .notion-frame,
+[data-theme='dark'] .notion-root > div,
+[data-theme='dark'] .notion-page-no-cover {
+  background-color: var(--notion-bg-dark) !important;
+  border-color: var(--notion-bg-dark) !important;
+  box-shadow: none !important;
+}
+
+[data-theme='dark'] .notion-header,
+[data-theme='dark'] .notion-title,
+[data-theme='dark'] .notion-viewport {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
