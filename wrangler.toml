@@ -2,12 +2,7 @@ name = "yngmin-me-frontend"
 compatibility_date = "2024-04-14"
 
 [build]
+upload_format = "directory"
 command = "npm run build"
 
-[site]
-bucket = ".vercel/output/static"
-entry-point = "."
-
-[[routes]]
-pattern = "yoursite.com/*"
-zone_id = "your_zone_id"
+pages_build_output_dir = ".vercel/output/static"
