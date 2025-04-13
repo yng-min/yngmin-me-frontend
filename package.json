@@ -11,6 +11,10 @@
     "postbuild": "next-on-pages --output-dir=./.vercel/output --functions-dir=./functions",
     "postinstall": "patch-package"
   },
+  "resolutions": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.13.12",
     "framer-motion": "^12.6.3",
@@ -18,8 +22,8 @@
     "next": "^14.1.0",
     "notion-client": "^7.3.0",
     "notion-utils": "^7.3.0",
+    "npm-force-resolutions": "^0.0.10",
     "patch-package": "^8.0.0",
-    "postinstall-postinstall": "^2.1.0",
     "prismjs": "^1.30.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
