@@ -5,18 +5,18 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "postbuild": "next-on-pages --output-dir=./.vercel/output --functions-dir=./functions"
   },
   "dependencies": {
+    "@cloudflare/next-on-pages": "^1.13.12",
     "framer-motion": "^12.6.3",
     "katex": "^0.16.22",
     "next": "15.3.0",
     "notion-client": "^7.3.0",
     "notion-utils": "^7.3.0",
     "prismjs": "^1.30.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-icons": "^5.5.0",
     "react-notion-x": "^7.3.0",
     "react-twemoji": "^0.6.0",
