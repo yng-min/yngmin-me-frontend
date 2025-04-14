@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	output: 'standalone',
-	experimental: { },
-	allowedDevOrigins: ['http://localhost:3000'],
+	experimental: { }
 }
 
 module.exports = nextConfig
