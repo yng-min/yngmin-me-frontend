@@ -47,7 +47,7 @@ export default function Header() {
                 <h1 className="dotted-title">• • • • •</h1>
                 <div className="custom-title">
                     <a href="/" className="logo">
-                        <img src="/ryu.png" alt="yngmin logo" className="logo"/>
+                        <img src="/ryu_symbol.png" alt="yngmin logo" className="logo"/>
                     </a>
                 </div>
             </div>
