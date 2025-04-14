@@ -8,7 +8,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "next-on-pages --output-dir=./.vercel/output --functions-dir=./functions",
     "postinstall": "patch-package"
   },
   "resolutions": {
