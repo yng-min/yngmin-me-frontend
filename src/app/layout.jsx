@@ -50,7 +50,7 @@ export default function Layout({ children }) {
                 {/* 홈페이지에 맞는 Open Graph 메타태그 설정 */}
                 <meta property="og:title" content={metadata.title}/>
                 <meta property="og:description" content={metadata.description}/>
-                {/* <meta property="og:image" content="https://yngmin.me/aboutme-thumbnail.png"/> */}
+                <meta property="og:image" content="https://yngmin.me/og-thumbnail.png"/>
             </head>
             <body>
                 <RootLayout>{children}</RootLayout>
