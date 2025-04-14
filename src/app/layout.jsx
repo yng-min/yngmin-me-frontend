@@ -51,6 +51,7 @@ export default function Layout({ children }) {
                 <meta property="og:title" content={metadata.title}/>
                 <meta property="og:description" content={metadata.description}/>
                 <meta property="og:image" content="https://yngmin.me/og-thumbnail.png"/>
+                <meta property="og:url" content="https://yngmin.me"/>
             </head>
             <body>
                 <RootLayout>{children}</RootLayout>
