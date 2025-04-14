@@ -1,6 +1,6 @@
 export const metadata = {
     title: 'yngmin.me - about me',
-    description: 'hello, world!',
+    description: 'hi there! 👋',
 }
 
 const themeScript = `
@@ -21,9 +21,9 @@ export default function Layout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
-                <meta name="description" content={metadata.description}/>
                 <title>{metadata.title}</title>
-                <link rel="icon" href="./ryu.ico" sizes="any"/>
+                <meta name="description" content={metadata.description}/>
+                <link rel="icon" href="./favicon.ico" sizes="any"/>
                 <link
                     rel="stylesheet"
                     as="style"
@@ -47,6 +47,10 @@ export default function Layout({ children }) {
                         `,
                     }}
                 />
+                {/* 홈페이지에 맞는 Open Graph 메타태그 설정 */}
+                <meta property="og:title" content={metadata.title}/>
+                <meta property="og:description" content={metadata.description}/>
+                {/* <meta property="og:image" content="https://yngmin.me/aboutme-thumbnail.png"/> */}
             </head>
             <body>
                 <RootLayout>{children}</RootLayout>
