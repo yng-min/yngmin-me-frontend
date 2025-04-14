@@ -51,6 +51,9 @@ export default function Layout({ children }) {
             <body>
                 <RootLayout>{children}</RootLayout>
             </body>
+            <footer class="site-footer">
+                &copy; 2025 yngmin. All rights reserved.
+            </footer>
         </html>
     )
 }
