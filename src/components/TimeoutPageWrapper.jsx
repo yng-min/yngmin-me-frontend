@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react'
 
 import Twemoji from 'react-twemoji'
 
-import FloatingButtonGroup from '@/components/FloatingButtonGroup'
-import ToggleThemeButton from '@/components/ToggleThemeButton'
-import ToggleCursorButton from '@/components/ToggleCursorButton'
-import InstagramLinkButton from '@/components/InstagramLinkButton'
+import FloatingButtonGroup from '@/components/buttons/FloatingButtonGroup'
+import ToggleThemeButton from '@/components/buttons/ToggleThemeButton'
+import ToggleCursorButton from '@/components/buttons/ToggleCursorButton'
+import InstagramLinkButton from '@/components/buttons/InstagramLinkButton'
 
 export default function LoadingOverlayWrapper() {
     const [hydrated, setHydrated] = useState(false)

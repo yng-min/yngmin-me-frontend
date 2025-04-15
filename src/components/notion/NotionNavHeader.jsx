@@ -1,8 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import ToggleThemeButton from './ToggleThemeButton'
-import InstagramLinkButton from './InstagramLinkButton'
+import ToggleThemeButton from '../buttons/ToggleThemeButton'
+import InstagramLinkButton from '../buttons/InstagramLinkButton'
 
 export default function NotionNavHeader({ darkMode }) {
     return (

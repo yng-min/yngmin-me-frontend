@@ -1,7 +1,7 @@
 'use client'
 
 import { useCursor } from '@/context/CursorContext'
-import CustomCursor from '@/components/CustomCursor'
+import CustomCursor from '@/components/cursors/CustomCursor'
 
 export default function CustomCursorWrapper() {
     const { cursorEnabled } = useCursor()
