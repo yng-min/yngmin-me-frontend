@@ -1,6 +1,6 @@
 export const metadata = {
-    title: 'yngmin.me - about me',
-    description: 'hi there! 👋',
+    title: 'yngmin.me',
+    description: 'Hi There! 👋',
 }
 
 const themeScript = `
@@ -21,9 +21,7 @@ export default function Layout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
-                <title>{metadata.title}</title>
-                <meta name="description" content={metadata.description}/>
-                <link rel="icon" href="./favicon.ico" sizes="any"/>
+                <link rel="icon" href="/ryu.ico" sizes="any"/>
                 <link
                     rel="stylesheet"
                     as="style"
@@ -48,17 +46,22 @@ export default function Layout({ children }) {
                     }}
                 />
                 {/* 홈페이지에 맞는 Open Graph 메타태그 설정 */}
-                <meta property="og:title" content={metadata.title}/>
-                <meta property="og:description" content={metadata.description}/>
-                <meta property="og:image" content="https://yngmin.me/og-thumbnail.png"/>
-                <meta property="og:url" content="https://yngmin.me"/>
+                <meta property="og:title" content={metadata.title} />
+                <meta property="og:description" content={metadata.description} />
+                <meta property="og:image" content="https://yngmin.me/og-thumbnail.png" />
+                <meta property="og:url" content="https://yngmin.me" />
+                {/* Twitter 카드용 (선택) */}
+                <meta name="twitter:title" content={metadata.title} />
+                <meta name="twitter:description" content={metadata.description} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content="https://yngmin.me/og-thumbnail.png" />
             </head>
             <body>
                 <RootLayout>{children}</RootLayout>
+                <footer className="site-footer">
+                    &copy; 2025 yngmin. All rights reserved.
+                </footer>
             </body>
-            <footer class="site-footer">
-                &copy; 2025 yngmin. All rights reserved.
-            </footer>
         </html>
     )
 }

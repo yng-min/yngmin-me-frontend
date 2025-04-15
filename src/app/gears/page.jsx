@@ -1,6 +1,6 @@
 export const metadata = {
-    title: "yngmin.me - home",
-    description: "반가워요! 👋"
+    title: "yngmin.me - my gears",
+    description: "제 목숨과도 같은 장비들이에요."
 }
 
 import Client from "./client"

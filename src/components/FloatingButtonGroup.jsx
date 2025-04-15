@@ -33,8 +33,8 @@ export default function FloatingButtonGroup() {
     useEffect(() => {
         if (hydrated) {
             const root = document.documentElement
-            root.style.setProperty('--bg-color', darkMode ? '#1b1b24' : '#dddddf')
-            root.style.setProperty('--text-color', darkMode ? '#dddddf' : '#1b1b24')
+            root.style.setProperty('--bg-color', darkMode ? '#1b1b24' : '#cccccd')
+            root.style.setProperty('--text-color', darkMode ? '#cccccd' : '#1b1b24')
             root.setAttribute('data-theme', darkMode ? 'dark' : 'light')
             localStorage.setItem('darkMode', darkMode.toString())
         }
