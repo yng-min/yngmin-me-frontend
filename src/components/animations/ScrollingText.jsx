@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from "react"
+
 import styles from "./ScrollingText.module.css"
 
 const ScrollingText = ({ text }) => {

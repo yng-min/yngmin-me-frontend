@@ -69,6 +69,35 @@ const Page = () => {
         setSpotifyRecent(recentData.slice(0, 10))  // 최근 10개만 가져오기
     }, [])
 
+    const timeAgo = (timestamp) => {
+        const now = new Date()
+        const then = new Date(timestamp)
+
+        const diffInMs = now - then
+        const diffInMinutes = Math.floor(diffInMs / 1000 / 60)
+        const diffInHours = Math.floor(diffInMinutes / 60)
+        const diffInDays = Math.floor(diffInHours / 24)
+        const diffInWeeks = Math.floor(diffInDays / 7)
+
+        const yearDiff = now.getFullYear() - then.getFullYear()
+        const monthDiff = now.getMonth() - then.getMonth() + yearDiff * 12
+        const realYearDiff = Math.floor(monthDiff / 12)
+
+        if (diffInMinutes < 1) return 'Just now'
+        if (diffInMinutes === 1) return '1 minute ago'
+        if (diffInMinutes < 60) return `${diffInMinutes} minutes ago`
+        if (diffInHours === 1) return '1 hour ago'
+        if (diffInHours < 24) return `${diffInHours} hours ago`
+        if (diffInDays === 1) return '1 day ago'
+        if (diffInDays < 7) return `${diffInDays} days ago`
+        if (diffInWeeks === 1) return '1 week ago'
+        if (diffInWeeks < 4) return `${diffInWeeks} weeks ago`
+        if (monthDiff === 1) return '1 month ago'
+        if (monthDiff < 12) return `${monthDiff} months ago`
+        if (realYearDiff === 1) return '1 year ago'
+        return `${realYearDiff} years ago`
+    }
+
     const nextTrack = () => {
         if (currentIndex < spotifyRecent.length - 1) {
             setCurrentIndex(currentIndex + 1)
@@ -199,7 +228,14 @@ const Page = () => {
                 setTimedOut={setTimedOut}
             />
             <div className="recent-wrapper">
-                <h3>Recent Tracks</h3>
+                <div className="recent-header">
+                    <h3>Recent Tracks</h3>
+                    {spotifyRecent.length > 0 && (
+                        <p className="track-time">
+                            {`${timeAgo(spotifyRecent[currentIndex].endTime)}`}
+                        </p>
+                    )}
+                </div>
                 <div className="card-container" role="button">
                     {spotifyRecent.length > 0 && (
                         <SpotifyRecentCard track={spotifyRecent[currentIndex]} />

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+
 import { FaInstagram } from 'react-icons/fa'
 
 export default function InstagramLinkButton() {

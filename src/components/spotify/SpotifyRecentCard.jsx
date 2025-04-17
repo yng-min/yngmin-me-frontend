@@ -17,7 +17,8 @@ const SpotifyRecentCard = ({ track }) => {
 
     const [fadeState, setFadeState] = useState("visible")
     const [currentTrack, setCurrentTrack] = useState(track)
-    const [isTrackLoading, setIsTrackLoading] = useState(false)  // 로딩 상태 추가
+    const [isTrackLoading, setIsTrackLoading] = useState(false)
+    const [progressWidth, setProgressWidth] = useState(37) // 바의 초기 width 상태 설정
 
     const trackRef = useRef(null)
     const artistRef = useRef(null)
@@ -25,20 +26,22 @@ const SpotifyRecentCard = ({ track }) => {
 
     useEffect(() => {
         if (track.spotifyId !== currentTrack.spotifyId) {
-            // 상태가 변경되기 전에 애니메이션을 "숨김" 상태로 만들기
             setFadeState("hidden")
-            setIsTrackLoading(true)  // 트랙 로딩 시작
 
-            // 정보가 변경된 후에 애니메이션과 상태를 다시 보여주는 방식으로 변경
             const timeout = setTimeout(() => {
-                setCurrentTrack(track)  // 새로운 track 정보로 상태 업데이트
-                setIsTrackLoading(false)  // 로딩 끝난 상태로 업데이트
-                setFadeState("visible")  // fade 상태를 보이게 설정
-            }, 200)  // 딜레이 후 상태 변경
+                setCurrentTrack(track)  // 트랙 변경
+                setProgressWidth(Math.floor(Math.random() * 101)) // 트랙이 바뀔 때마다 progressWidth를 랜덤으로 설정
+                setIsOverflowing({
+                    track: false,
+                    artist: false,
+                    album: false,
+                })
+                setFadeState("visible")
+            }, 200)
 
-            return () => clearTimeout(timeout)  // cleanup
+            return () => clearTimeout(timeout)
         }
-    }, [track, currentTrack.spotifyId])
+    }, [track, currentTrack.spotifyId]) // track가 바뀔 때마다 실행
 
     useEffect(() => {
         if (isTrackLoading) return
@@ -97,10 +100,14 @@ const SpotifyRecentCard = ({ track }) => {
 
     return (
         <div className={`card card-transition ${fadeState === "hidden" ? "hidden" : ""}`}>
+            <div className={`card-fade-overlay ${fadeState === "hidden" ? "active" : ""}`} />
             <img
                 src={currentTrack.albumImage}
                 alt={currentTrack.albumName}
                 className="album-image"
+                onClick={() =>
+                    window.open(`https://open.spotify.com/track/${currentTrack.spotifyId}`, '_blank')
+                }
             />
 
             <div className="track-info">
@@ -125,7 +132,10 @@ const SpotifyRecentCard = ({ track }) => {
                         }
                     >
                         <div className="bar-background">
-                            <div className="bar-progress" />
+                            <div
+                                className="bar-progress"
+                                style={{ width: `${progressWidth}%` }} // progressWidth에 따라 width 변경
+                            />
                             <div className="play-button">
                                 <FaPause size={10} color="#333" />
                             </div>

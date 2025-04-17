@@ -37,7 +37,7 @@
   content: "";
   position: absolute;
   top: 0;
-  right: 0;
+  right: -1rem;
   width: 5rem;  /* 그라디언트의 너비 */
   height: 100%;
   background: linear-gradient(to left, var(--text-color), transparent);

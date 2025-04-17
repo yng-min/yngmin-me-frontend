@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
+
 import { useDevice } from '@/context/DeviceContext'
 
+import GroupButton from '@/components/buttons/GroupButton'
 import InstagramLinkButton from '@/components/buttons/InstagramLinkButton'
 import ToggleCursorButton from '@/components/buttons/ToggleCursorButton'
 import ToggleThemeButton from '@/components/buttons/ToggleThemeButton'
-import GroupButton from '@/components/buttons/GroupButton'
 
 export default function FloatingButtonGroup() {
     const [hydrated, setHydrated] = useState(false)

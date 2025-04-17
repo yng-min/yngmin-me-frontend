@@ -1,46 +1,67 @@
 .recent-wrapper {
   position: relative;
-  padding: 20px;
+  top: 3rem;
   background-color: rgba(0, 0, 0, 0);
   border-radius: 8px;
-  max-width: 675px;
+  max-width: 640px;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
 }
+
+.recent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.track-time {
+  text-align: right;
+  opacity: 0.5;
+}
+
 
 .card {
   display: flex;
   align-items: center;
   background-color: var(--text-color);
   border-radius: 10px;
-  padding: 1rem;
-  width: 100%;
-  height: 200px;
-  max-width: 600px;
+  height: 230px;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.25);
   z-index: 1;
 }
 
-.card-transition {
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out;
+.card-fade-overlay {
+  position: absolute;
+  align-items: center;
+  background-color: var(--text-color);
+  border-radius: 10px;
+  padding: 1rem;
+  width: 100%;
+  height: 190px;
+  max-width: 600px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 500ms ease-in-out;
 }
 
-.card-transition.hidden {
-  opacity: 0;
-  transition: opacity 0.1s ease-in-out;
-  z-index: -1;
+.card-fade-overlay.active {
+  opacity: 1;
+  transition: opacity 100ms ease-in-out;
 }
 
 
 .album-image {
+  margin-left: 15px;
   width: 200px;
   height: 200px;
   border-radius: 8px;
   object-fit: cover;
   margin-right: 1rem;
   flex-shrink: 0;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
 }
 
 .track-info {
@@ -60,7 +81,8 @@
 .artist-names,
 .album-name {
   padding-left: 0.1rem;
-  width: 100%;
+  padding-right: 1rem;
+  margin-right: 1rem;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
@@ -70,7 +92,7 @@
 }
 
 .track-name {
-  padding-top: 0.51rem;
+  padding-top: 1.25rem;
   font-size: 2rem;
 }
 
@@ -90,12 +112,13 @@
 
 .duration-bar {
   position: absolute; /* .track-info 내에서 하단에 고정 */
-  bottom: 0.5rem; /* 하단에 배치 */
+  bottom: 1.5rem;
   left: 0;
   right: 0;
+  margin-right: 4%;
   display: flex;
-  justify-content: center; /* 수평 가운데 정렬 */
-  align-items: baseline; /* 아이콘 아래 짤림 방지 */
+  justify-content: center;
+  align-items: baseline;
   gap: 0;
   font-size: 0.85rem;
 }
@@ -130,7 +153,9 @@
   height: 100%;
   background-color: #1db954;
   border-radius: 3px;
+  transition: width 0ms ease-out;
 }
+
 
 .play-button {
   position: absolute;
@@ -145,7 +170,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 50px 50px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s;
+  transition: background-color 250ms;
 }
 
 .play-button:hover {
@@ -157,7 +182,7 @@
   justify-content: center;
   width: 100%;
   margin-top: 20px;
-  max-width: 632.75px;
+  max-width: 640px;
   flex-wrap: wrap;
   gap: 1rem;
   z-index: 50;
@@ -170,18 +195,22 @@
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: bold;
-  transition: background-color 0.2s ease;
   flex: 1 1 auto;
   min-width: 120px;
+  transition:
+    opacity 0.5s ease,
+    background-color 0.5s ease;
 }
 
 .buttons button:disabled {
-  background-color: #ddd;
+  background-color: var(--text-color);
+  opacity: 0.75;
 }
 
 .buttons button:hover {
   background-color: #1a9e4f;
 }
+
 
 /* 반응형 대응 */
 @media (max-width: 768px) {

@@ -8,13 +8,12 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* footer의 스타일 추가 */
 }
 
 .stats-container {
   max-width: 640px;
   margin: 0 auto;
-  padding: 1rem;
+  margin-top: 1.5rem;
 }
 
 

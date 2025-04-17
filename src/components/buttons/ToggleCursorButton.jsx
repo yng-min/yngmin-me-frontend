@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+
 import { FaMousePointer, FaBan } from 'react-icons/fa'
+
 import { useCursor } from '@/context/CursorContext'
 
 export default function ToggleCursorButton() {
