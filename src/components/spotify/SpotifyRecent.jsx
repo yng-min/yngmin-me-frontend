@@ -22,11 +22,12 @@ const SpotifyRecentFetcher = ({ setSpotifyRecent, setLastUpdated, setTimedOut })
 
         const fetchRecentData = async () => {
             try {
-                const response = await fetch(`https://api.stats.fm/api/v1/users/${spotifyId}/streams/recent`)
-
-                if (!response.ok) throw new Error('Failed to fetch recent data')
+                const response = await fetch(`https://api.stats.fm/api/v1/users/${spotifyId}/streams/recent?limit=50`)
 
                 const recentData = await response.json()
+                if (!response.ok || recentData.items.length === 0) {
+                    throw new Error('Failed to fetch recent data')
+                }
 
                 // 필요한 데이터만 추출
                 const processedData = recentData.items.map(item => ({
@@ -61,7 +62,7 @@ const SpotifyRecentFetcher = ({ setSpotifyRecent, setLastUpdated, setTimedOut })
         if (storedData) {
             const parsed = JSON.parse(storedData)
             const timeElapsed = new Date() - new Date(parsed.lastUpdated)
-            if (timeElapsed < 60000 /** 1분 */) {
+            if (timeElapsed < 1800000 /** 30분 */) {
                 setSpotifyRecent(parsed.recentStats)
                 setLastUpdated(parsed.lastUpdated)
             } else {

@@ -1,0 +1,48 @@
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%; /* 또는 원하는 고정 크기 */
+}
+
+.text {
+  display: inline-flex;
+  white-space: nowrap;
+  width: max-content;
+  will-change: transform;
+  transition: none;
+}
+
+.gap {
+  width: 5rem;
+  flex-shrink: 0;
+}
+
+.wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 0.15rem; /* 너비는 필요에 따라 조정 */
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 7.5rem; /* 너비는 필요에 따라 조정 */
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--text-color), transparent);
+}
+
+.wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--text-color), transparent);
+}

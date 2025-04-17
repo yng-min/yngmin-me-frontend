@@ -148,12 +148,6 @@ const Page = () => {
         )
     }
 
-    const formatDuration = (durationMs) => {
-        const minutes = Math.floor(durationMs / 1000 / 60)
-        const seconds = Math.floor((durationMs / 1000) % 60)
-        return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`
-    }
-
     return (
         <>
             <FloatingButtonGroup>
@@ -206,20 +200,20 @@ const Page = () => {
             />
             <div className="recent-wrapper">
                 <h3>Recent Tracks</h3>
-                <div className="card-container">
+                <div className="card-container" role="button">
                     {spotifyRecent.length > 0 && (
                         <SpotifyRecentCard track={spotifyRecent[currentIndex]} />
                     )}
                 </div>
                 <div className="buttons">
                     <button onClick={prevTrack} disabled={currentIndex === 0}>
-                        Previous
+                        ◀︎ Prev
                     </button>
                     <button
                         onClick={nextTrack}
                         disabled={currentIndex === spotifyRecent.length - 1}
                     >
-                        Next
+                        Next ▶︎
                     </button>
                 </div>
             </div>
