@@ -17,48 +17,83 @@ const SpotifyRecentCard = ({ track }) => {
 
     const [fadeState, setFadeState] = useState("visible")
     const [currentTrack, setCurrentTrack] = useState(track)
+    const [isTrackLoading, setIsTrackLoading] = useState(false)  // 로딩 상태 추가
 
     const trackRef = useRef(null)
     const artistRef = useRef(null)
     const albumRef = useRef(null)
 
-    // 트랙 변경 감지 → 애니메이션 전환
     useEffect(() => {
-        if (
-            track.spotifyId !== currentTrack.spotifyId
-        ) {
-            setFadeState("hidden") // 페이드 아웃 시작
+        if (track.spotifyId !== currentTrack.spotifyId) {
+            // 상태가 변경되기 전에 애니메이션을 "숨김" 상태로 만들기
+            setFadeState("hidden")
+            setIsTrackLoading(true)  // 트랙 로딩 시작
 
+            // 정보가 변경된 후에 애니메이션과 상태를 다시 보여주는 방식으로 변경
             const timeout = setTimeout(() => {
-                setCurrentTrack(track) // 데이터 갱신
-                setFadeState("visible") // 페이드 인 시작
-            }, 200) // transition 시간과 맞춤
+                setCurrentTrack(track)  // 새로운 track 정보로 상태 업데이트
+                setIsTrackLoading(false)  // 로딩 끝난 상태로 업데이트
+                setFadeState("visible")  // fade 상태를 보이게 설정
+            }, 200)  // 딜레이 후 상태 변경
 
-            return () => clearTimeout(timeout)
+            return () => clearTimeout(timeout)  // cleanup
         }
-    }, [track])
+    }, [track, currentTrack.spotifyId])
 
-    // 텍스트 오버플로우 체크
     useEffect(() => {
-        const checkOverflow = (ref) => {
-            if (!ref?.current) return false
-            return ref.current.scrollWidth > ref.current.clientWidth
+        if (isTrackLoading) return
+
+        const refs = {
+            track: trackRef,
+            artist: artistRef,
+            album: albumRef,
         }
 
-        const delayCheckOverflow = () => {
-            setTimeout(() => {
-                setIsOverflowing({
-                    track: checkOverflow(trackRef),
-                    artist: checkOverflow(artistRef),
-                    album: checkOverflow(albumRef),
-                })
-            }, 150)
+        const tolerance = 1
+        const frameIds = {}
+
+        const checkOverflow = (key, ref) => {
+            const el = ref?.current
+            if (!el) return
+
+            const scroll = el.scrollWidth
+            const client = el.clientWidth
+            const isOverflow = Math.ceil(scroll) > Math.ceil(client + tolerance)
+
+            setIsOverflowing(prev => {
+                if (prev[key] !== isOverflow) {
+                    return { ...prev, [key]: isOverflow }
+                }
+                return prev
+            })
+
+            frameIds[key] = requestAnimationFrame(() => checkOverflow(key, ref))
         }
 
-        delayCheckOverflow()
+        document.fonts.ready.then(() => {
+            Object.entries(refs).forEach(([key, ref]) => {
+                frameIds[key] = requestAnimationFrame(() => checkOverflow(key, ref))
+            })
+        })
 
-        return () => { }
-    }, [currentTrack.trackName, currentTrack.artistNames, currentTrack.albumName])
+        return () => {
+            Object.values(frameIds).forEach(id => cancelAnimationFrame(id))
+        }
+    }, [
+        currentTrack.trackName,
+        currentTrack.artistNames,
+        currentTrack.albumName,
+        currentTrack.spotifyId,
+        isTrackLoading,
+    ])
+
+    const renderField = (text, isOverflow, ref, prefix = "", suffix = "") => (
+        <div className="scroll-wrapper" ref={ref}>
+            {isOverflow
+                ? <ScrollingText key={text} text={`${prefix}${text}${suffix}`} />
+                : `${prefix}${text}${suffix}`}
+        </div>
+    )
 
     return (
         <div className={`card card-transition ${fadeState === "hidden" ? "hidden" : ""}`}>
@@ -70,33 +105,15 @@ const SpotifyRecentCard = ({ track }) => {
 
             <div className="track-info">
                 <div className="track-name">
-                    <div className="scroll-wrapper" ref={trackRef}>
-                        {isOverflowing.track ? (
-                            <ScrollingText text={currentTrack.trackName} />
-                        ) : (
-                            currentTrack.trackName
-                        )}
-                    </div>
+                    {renderField(currentTrack.trackName, isOverflowing.track, trackRef)}
                 </div>
 
                 <div className="artist-names">
-                    <div className="scroll-wrapper" ref={artistRef}>
-                        {isOverflowing.artist ? (
-                            <ScrollingText text={currentTrack.artistNames.join(', ')} />
-                        ) : (
-                            currentTrack.artistNames.join(', ')
-                        )}
-                    </div>
+                    {renderField(currentTrack.artistNames.join(', '), isOverflowing.artist, artistRef)}
                 </div>
 
                 <div className="album-name">
-                    <div className="scroll-wrapper" ref={albumRef}>
-                        {isOverflowing.album ? (
-                            <ScrollingText text={`[${currentTrack.albumName}]`} />
-                        ) : (
-                            `[${currentTrack.albumName}]`
-                        )}
-                    </div>
+                    {renderField(currentTrack.albumName, isOverflowing.album, albumRef, "[", "]")}
                 </div>
 
                 <div className="duration-bar">

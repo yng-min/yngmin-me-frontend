@@ -62,7 +62,7 @@ const SpotifyRecentFetcher = ({ setSpotifyRecent, setLastUpdated, setTimedOut })
         if (storedData) {
             const parsed = JSON.parse(storedData)
             const timeElapsed = new Date() - new Date(parsed.lastUpdated)
-            if (timeElapsed < 1800000 /** 30분 */) {
+            if (timeElapsed < 600000 /** 10분 */) {
                 setSpotifyRecent(parsed.recentStats)
                 setLastUpdated(parsed.lastUpdated)
             } else {

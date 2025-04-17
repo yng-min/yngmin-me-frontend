@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useLayoutEffect, useRef, useState } from "react"
 import styles from "./ScrollingText.module.css"
 
 const ScrollingText = ({ text }) => {
@@ -6,68 +6,50 @@ const ScrollingText = ({ text }) => {
     const textRef = useRef(null)
 
     const [position, setPosition] = useState(0)
-    const [scrollWidth, setScrollWidth] = useState(0)
 
-    const speed = 0.5
-    const delay = 1000
-    const gap = 80
+    const speed = 0.35 // px per frame
+    const delay = 1750 // ms
+    const gap = 2.5 // rem
 
-    // 텍스트 너비 측정 로직 (폰트 로드 + ResizeObserver 대응)
-    useEffect(() => {
+    const measureWidth = () => {
         const span = textRef.current
-        if (!span) return
+        const gap_px = gap * 16
+        if (!span) return 0
+        const width = span.offsetWidth + gap_px
+        return width
+    }
 
-        const measureWidth = () => {
-            const totalWidth = span.offsetWidth + gap
-            setScrollWidth(totalWidth)
-        }
-
-        // 폰트가 로드된 후 측정
-        document.fonts.ready.then(measureWidth)
-
-        // ResizeObserver로 텍스트 리사이즈 감지
-        const observer = new ResizeObserver(measureWidth)
-        observer.observe(span)
-
-        return () => observer.disconnect()
-    }, [text])
-
-    // 스크롤 루프 (scrollWidth 설정된 후만 실행)
-    useEffect(() => {
-        if (!scrollWidth) return
+    useLayoutEffect(() => {
+        const scrollWidth = measureWidth()
+        if (scrollWidth === 0) return
 
         let animationId
         let timeoutId
+        let pos = 0
 
-        const loop = () => {
-            let pos = 0
-
-            const step = () => {
-                pos += speed
-                if (pos >= scrollWidth / 2) {
-                // if (pos >= textRef.current.offsetWidth + gap) {
-                    setPosition(0)
-                    timeoutId = setTimeout(() => {
-                        animationId = requestAnimationFrame(loop)
-                    }, delay)
-                } else {
-                    setPosition(-pos)
+        const step = () => {
+            pos += speed
+            if (pos >= scrollWidth / 2) {
+                pos = 0
+                setPosition(0)
+                timeoutId = setTimeout(() => {
                     animationId = requestAnimationFrame(step)
-                }
-            }
-
-            timeoutId = setTimeout(() => {
+                }, delay)
+            } else {
+                setPosition(-pos)
                 animationId = requestAnimationFrame(step)
-            }, delay)
+            }
         }
 
-        loop()
+        timeoutId = setTimeout(() => {
+            animationId = requestAnimationFrame(step)
+        }, delay)
 
         return () => {
             cancelAnimationFrame(animationId)
             clearTimeout(timeoutId)
         }
-    }, [scrollWidth])
+    }, [text])
 
     return (
         <div className={styles.wrapper} ref={wrapperRef}>

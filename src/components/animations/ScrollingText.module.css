@@ -1,48 +1,46 @@
-.wrapper {
-  position: relative;
-  overflow: hidden;
-  width: 100%; /* 또는 원하는 고정 크기 */
+.scroll-wrapper {
+  overflow: visible;  /* 부모가 자식 요소가 벗어나도록 허용 */
+  white-space: nowrap;
+  width: 100%;
 }
 
 .text {
   display: inline-flex;
-  white-space: nowrap;
-  width: max-content;
-  will-change: transform;
-  transition: none;
+  white-space: nowrap;  /* 텍스트 한 줄로 설정 */
+  width: max-content;  /* 텍스트 내용에 맞춰서 자동 크기 */
 }
 
 .gap {
-  width: 5rem;
+  width: 2.5rem;  /* 텍스트 사이의 갭 */
   flex-shrink: 0;
 }
 
+.wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
 .wrapper::before {
   content: "";
   position: absolute;
   top: 0;
-  width: 0.15rem; /* 너비는 필요에 따라 조정 */
+  left: -3px;  /* 그라디언트를 왼쪽으로 확장 */
+  width: 0.25rem;  /* 그라디언트의 너비 */
   height: 100%;
-  z-index: 10;
-  pointer-events: none;
-}
-
-.wrapper::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  width: 7.5rem; /* 너비는 필요에 따라 조정 */
-  height: 100%;
-  z-index: 10;
-  pointer-events: none;
-}
-
-.wrapper::before {
-  left: 0;
   background: linear-gradient(to right, var(--text-color), transparent);
+  z-index: 10;
+  pointer-events: none;
 }
 
 .wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
   right: 0;
+  width: 5rem;  /* 그라디언트의 너비 */
+  height: 100%;
   background: linear-gradient(to left, var(--text-color), transparent);
+  z-index: 10;
+  pointer-events: none;
 }

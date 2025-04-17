@@ -108,7 +108,7 @@ const SpotifyStatsFetcher = ({ setSpotifyStats, setExtraStats, setLastUpdated, s
         if (storedData) {
             const parsed = JSON.parse(storedData)
             const timeElapsed = new Date() - new Date(parsed.lastUpdated)
-            if (timeElapsed < 3600000 /** 1시간 */) {
+            if (timeElapsed < 600000 /** 10분 */) {
                 setSpotifyStats(parsed.spotifyStats)
                 setExtraStats(parsed.extraStats)
                 setLastUpdated(parsed.lastUpdated)
