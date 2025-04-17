@@ -20,7 +20,7 @@
   width: 3000px;
   height: 3000px;
   background: radial-gradient(circle, #d31841 0%, transparent 70%);
-  opacity: 0.4;
+  opacity: 0.25;
   mix-blend-mode: screen;
   transform: translateX(-50%);
 }
@@ -31,7 +31,7 @@
   width: 3000px;
   height: 3000px;
   background: radial-gradient(circle, #ff1755 0%, transparent 70%);
-  opacity: 0.3;
+  opacity: 0.15;
   mix-blend-mode: screen;
   transform: translateX(-50%);
 }
