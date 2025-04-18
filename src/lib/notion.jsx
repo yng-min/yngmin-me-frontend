@@ -3,7 +3,7 @@ import { NotionAPI } from 'notion-client'
 
 const notion = new NotionAPI()
 
-export async function getRecordMapFromRaw(rawData: any) {
+export async function getRecordMapFromRaw(rawData) {
     const pageId = Object.keys(rawData)[0]
     if (!pageId) throw new Error('유효한 pageId 없음')
 

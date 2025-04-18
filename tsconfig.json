@@ -35,7 +35,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/context/DeviceContext.jsx", "src/app/blog/[pageId]/page.jsx"  ],
+, "src/context/DeviceContext.jsx", "src/app/blog/[pageId]/page.jsx", "src/lib/notion.jsx"  ],
   "exclude": [
     "node_modules"
   ]

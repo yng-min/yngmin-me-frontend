@@ -1,0 +1,118 @@
+.djmax-user-table__wrapper {
+  padding: 20px;
+  margin-top: 3rem;
+}
+
+
+.djmax-user-table_header {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.djmax-user-table_header h2 {
+  font-size: 3.5rem;
+  text-align: left;
+}
+
+.powered-by {
+  margin-left: 8px;
+  font-size: 0.65rem;
+  color: rgba(128, 128, 128, 0.75);
+  font-weight: normal;
+}
+
+[data-theme='light'] .v-archive {
+  color: rgba(29, 43, 35, 0.5);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .v-archive {
+  color: rgba(250, 224, 19, 0.5);
+  text-decoration: none;
+}
+
+.v-archive:hover {
+  text-decoration: underline;
+}
+
+
+.djmax-user-table__container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.djmax-user-table__group {
+    margin-bottom: 2rem;
+}
+
+.djmax-user-table__difficulty {
+    color: var(--bg-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+    background-color: rgba(var(--text-color-rgb), 0.75);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.djmax-user-table__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: flex-start;
+}
+
+.djmax-user-table__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--text-color);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-basis: calc(100% / 7);  /* 7개가 한 줄에 정확히 들어가도록 수정 */
+    min-width: 120.55px;
+    max-width: 120.55px;
+    height: 12.5rem;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 250ms ease; /* 부드러운 변화를 위한 transition */
+}
+
+.djmax-user-table__item:hover {
+    transform: scale(1.075); /* 마우스 호버 시 크기 1.1배 */
+}
+
+.djmax-user-table__title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--bg-color);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;  /* 최대 3줄로 자르기 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;  /* 3줄을 초과하면 ... 처리 */
+}
+
+.djmax-user-table__score {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1b1b36;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    padding: 0.25rem 1rem;
+}
+
+.djmax-user-table__image img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 7.5px;
+}
