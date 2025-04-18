@@ -1,12 +1,8 @@
 module.exports = {
-    experimental: {},
     webpack(config, { dev, isServer }) {
-        if (!dev && !isServer) {
-            // 캐시를 디스크 대신 메모리로 저장
-            config.cache = {
-                type: 'memory', // 메모리 캐시 사용
-            };
+        if (!dev) {
+            config.cache = false; // 캐시 비활성화
         }
         return config;
-    }
+    },
 };
