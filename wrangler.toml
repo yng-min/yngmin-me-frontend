@@ -1,5 +1,6 @@
 name = "yngmin-me-frontend"
 compatibility_date = "2025-04-18"
+pages_build_output_dir = "./.vercel/output"
 
 [build]
 command = "npm run build"
