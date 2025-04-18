@@ -1,7 +1,8 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-	output: 'standalone',
-	experimental: {}
-}
 
-module.exports = nextConfig
+module.exports = {
+    experimental: {},
+    webpack: (config) => {
+        config.resolve.extensions.push('.mjs');
+        return config;
+    }
+};
