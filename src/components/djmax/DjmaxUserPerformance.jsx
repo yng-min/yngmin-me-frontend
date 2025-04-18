@@ -16,7 +16,7 @@ const DjmaxDataFetcher = () => {
     useEffect(() => {
         const fetchConfig = async () => {
             try {
-                const response = await fetch('/config.json')
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/config.json`)
                 const configData = await response.json()
                 setDjmaxArchiveNickname(configData.djmaxArchiveNickname)
             } catch (err) {

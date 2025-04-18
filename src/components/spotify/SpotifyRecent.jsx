@@ -6,7 +6,7 @@ const SpotifyRecentFetcher = ({ setSpotifyRecent, setLastUpdated, setTimedOut })
     useEffect(() => {
         async function fetchConfig() {
             try {
-                const response = await fetch('/config.json')
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/config.json`)
                 const data = await response.json()
                 setSpotifyId(data.spotifyId)
             } catch (err) {
