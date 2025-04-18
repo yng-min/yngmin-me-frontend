@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx next-on-pages@latest build",
     "postinstall": "patch-package"
   },
   "resolutions": {
