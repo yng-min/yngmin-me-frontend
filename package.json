@@ -6,9 +6,9 @@
     "node": "18.18.0"
   },
   "scripts": {
-    "dev": "wrangler pages dev .output",
+    "dev": "next dev",
     "build": "next build",
-    "wrangler:pages": "next-on-pages --experimental-minify && wrangler pages deploy .output"
+    "postinstall": "patch-package"
   },
   "resolutions": {
     "react": "^18.0.0",
