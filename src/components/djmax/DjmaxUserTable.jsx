@@ -132,9 +132,10 @@ const DjmaxUserTable = () => {
             if (pattern.maxCombo === 1) {
                 totalStats.maxCombo++
             }
-            if (pattern.score !== '–') {
+            if (pattern.score !== '–' && pattern.score !== null && pattern.score !== undefined) {
                 totalStats.clear++
 
+                // score가 null 또는 undefined가 아니면 숫자로 변환
                 const numericScore = parseFloat(pattern.score.replace('%', ''))
                 if (!isNaN(numericScore)) {
                     numericScores.push(numericScore)
