@@ -36,6 +36,20 @@ footer {
   font-weight: normal;
 }
 
+@media (max-width: 768px) {
+  .stats-header h2 {
+    margin-left: 1rem;
+    font-size: 2.25rem; /* 모바일에 맞게 제목 크기 축소 */
+  }
+
+  .powered-by {
+    display: block;
+    margin-top: 0.25rem;
+    margin-left: 1px;
+    font-size: 0.55rem; /* 부가 텍스트도 축소 */
+  }
+}
+
 [data-theme='light'] .statsfm {
   color: rgba(29, 43, 35, 0.5);
   text-decoration: none;
@@ -78,6 +92,26 @@ footer {
   /* font-weight: bold; */
   margin-top: 0.25rem;
   opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .stats-box {
+    padding: 0 1rem;
+    /* max-width: calc(100vw - 0.25rem); */
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .stat-label {
+    font-size: 1rem;
+  }
 }
 
 

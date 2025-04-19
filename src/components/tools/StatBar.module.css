@@ -1,0 +1,49 @@
+.statbar {
+  margin-bottom: 1rem;
+  padding: 0.5rem 0; /* 좌우 패딩 제거 */
+  background-color: rgba(var(--text-color-rgb), 0.15);
+  border-radius: 7.5px;
+  box-sizing: border-box;
+}
+
+.statbar-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  padding: 0 0.6rem; /* 좌우 여백만 여기서 적용 */
+  box-sizing: border-box;
+}
+
+.statbar-track {
+  width: calc(100% - 1.25rem); /* 전체에서 좌우 padding 고려 */
+  margin: 0 auto;
+  height: 10px;
+  background-color: rgba(var(--text-color-rgb), 0.5);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.statbar-fill {
+    /* width: 99%; */
+    height: 100%;
+    transition: width 250ms ease;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .statbar-label {
+    font-size: 0.75rem; /* 줄임 */
+  }
+
+  .statbar-track {
+    height: 0.5rem; /* 굵기 줄임 */
+  }
+
+  .statbar-fill {
+    border-radius: 3px; /* 굵기에 맞게 조정 */
+  }
+}

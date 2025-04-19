@@ -6,6 +6,7 @@ import '@/styles/djmax/DjmaxUserTable.css'
 import useRemoveLoadingOverlay from '@/hooks/useRemoveLoadingOverlay'
 
 import TimeoutPageWrapper from '@/components/TimeoutPageWrapper'
+import StatBar from '@/components/tools/StatBar'
 
 const usePageTimeout = (timeoutDuration = 10000, loadingComplete) => {
     const [timedOut, setTimedOut] = useState(false)
@@ -109,12 +110,51 @@ const DjmaxUserTable = () => {
     }
 
     const sortedFloors = [...performanceData.floors].sort((a, b) => b.floorNumber - a.floorNumber)
+    const totalStats = {
+        perfect: 0,
+        maxCombo: 0,
+        clear: 0,
+        total: 0,
+        over97: 0,
+        over99: 0,
+        over995: 0,
+        over999: 0,
+    }
+    const numericScores = []
+
+    sortedFloors.forEach(floor => {
+        floor.patterns.forEach(pattern => {
+            totalStats.total++
+
+            if (pattern.score === '100.00%') {
+                totalStats.perfect++
+            }
+            if (pattern.maxCombo === 1) {
+                totalStats.maxCombo++
+            }
+            if (pattern.score !== '–') {
+                totalStats.clear++
+
+                const numericScore = parseFloat(pattern.score.replace('%', ''))
+                if (!isNaN(numericScore)) {
+                    numericScores.push(numericScore)
+
+                    if (numericScore >= 97) totalStats.over97++
+                    if (numericScore >= 99) totalStats.over99++
+                    if (numericScore >= 99.5) totalStats.over995++
+                    if (numericScore >= 99.9) totalStats.over999++
+                }
+            }
+        })
+    })
+
+    const averageScore = numericScores.reduce((sum, s) => sum + s, 0) / numericScores.length
 
     return (
         <div className="djmax-user-table__wrapper">
             <div className="djmax-user-table_header">
                 <h2>
-                    DJMAX Achievement (4B SC)
+                    DJMAX Achievement
                     <span className="powered-by">
                         Powered by&nbsp;
                         <a
@@ -128,6 +168,25 @@ const DjmaxUserTable = () => {
                     </span>
                 </h2>
             </div>
+            <div className="djmax-user-table_stats">
+                <div className="stat-header">
+                    <h3>{button}B {board}</h3>
+                    <span className="score-summary">
+                        AVG. {averageScore.toFixed(2)}%
+                    </span>
+                </div>
+                <div className="djmax-user-table_overall">
+                    <StatBar label="Perfect" value={totalStats.perfect} total={totalStats.total} color="rgba(238, 50, 51, 0.95)" />
+                    <StatBar label="Max Combo" value={totalStats.maxCombo} total={totalStats.total} color="rgba(73, 237, 173, 0.75)" />
+                    <StatBar label="Clear" value={totalStats.clear} total={totalStats.total} color="rgba(148, 232, 255, 0.75)" />
+                    <div className="djmax-user-table_over-thresholds">
+                        <StatBar label="Over 99.9%" value={totalStats.over999} total={totalStats.total} color="rgba(255, 60, 60, 0.6)" />
+                        <StatBar label="Over 99%" value={totalStats.over99} total={totalStats.total} color="rgba(255, 155, 0, 0.6)" />
+                        <StatBar label="Over 99.5%" value={totalStats.over995} total={totalStats.total} color="rgba(255, 105, 0, 0.6)" />
+                        <StatBar label="Over 97%" value={totalStats.over97} total={totalStats.total} color="rgba(255, 196, 0, 0.6)" />
+                    </div>
+                </div>
+            </div>
 
             <div className="djmax-user-table__container">
                 {sortedFloors.map(floor => (
@@ -138,25 +197,24 @@ const DjmaxUserTable = () => {
                         <div className="djmax-user-table__row">
                             {floor.patterns.map((pattern, index) => {
                                 let scoreColor = ''
+                                scoreColor = 'rgba(153, 153, 153, 0.5)' // 플레이하지 않음
 
-                                if (pattern.score && pattern.score !== '-') {
+                                if (pattern.score && pattern.score !== '–') {
                                     if (!pattern.score.includes('%')) {
                                         pattern.score += '%'
                                     }
 
-                                    scoreColor = 'rgba(148, 232, 255, 0.65)' // 기본 클리어
-
+                                    scoreColor = 'rgba(148, 232, 255, 0.5)' // 클리어
                                     if (pattern.score === '100.00%') {
-                                        scoreColor = 'rgba(238, 50, 51, 0.9)' // 퍼펙트
+                                        scoreColor = 'rgba(238, 50, 51, 0.95)' // 퍼펙트
                                     } else if (pattern.maxCombo === 1) {
-                                        scoreColor = 'rgba(73, 237, 173, 0.8)' // 맥스콤보
+                                        scoreColor = 'rgba(73, 237, 173, 0.75)' // 맥스콤보
                                     }
                                 } else if (pattern.score === null) {
-                                    pattern.score = '-'
+                                    pattern.score = '–'
                                 }
-
-                                if (pattern.score === '-%') {
-                                    pattern.score = '-'
+                                if (pattern.score === '–%') {
+                                    pattern.score = '–'
                                 }
 
                                 return (

@@ -23,28 +23,34 @@
 
 
 .card {
+  position: relative;
   display: flex;
   align-items: center;
   background-color: var(--text-color);
   border-radius: 10px;
   height: 230px;
+  width: 100%;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.25);
   z-index: 1;
+  overflow: hidden; /* 내부 오버레이가 벗어나는 것 방지 */
 }
 
 .card-fade-overlay {
   position: absolute;
-  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; /* height: 100%보다 더 정확한 방식 */
   background-color: var(--text-color);
   border-radius: 10px;
-  padding: 1rem;
-  width: 100%;
-  height: 190px;
-  max-width: 600px;
+  padding: 0; /* 겹치게 하려면 padding 제거 */
   opacity: 0;
   pointer-events: none;
   z-index: 2;
   transition: opacity 500ms ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 필요 시 중앙 정렬 */
 }
 
 .card-fade-overlay.active {
@@ -212,30 +218,127 @@
 }
 
 
-/* 반응형 대응 */
 @media (max-width: 768px) {
+  .recent-wrapper {
+    padding: 0 1rem;           /* margin 대신 padding 사용 */
+    max-width: calc(100vw - 0.2rem); /* 화면보다 좌우 0.25rem 작게 */
+    margin: 0 auto;            /* 가운데 정렬 */
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .track-time {
+    font-size: 0.8rem;
+  }
+
+
   .card {
-    flex-direction: column;
-    padding: 16px;
-  }
-
-  .album-image {
+    position: relative; /* 기준 위치 설정 */
+    height: 130px;
+    flex-direction: row;
+    padding: 0.75rem;
+    align-items: center;
+    box-sizing: border-box;
+    flex-wrap: nowrap;
     width: 100%;
-    height: auto;
-    margin: 0 0 16px 0;
+    overflow: hidden;
   }
 
-  .track-info {
-    padding-left: 0;
+  .card-fade-overlay {
+    position: absolute; /* .card 내부 기준으로 배치 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0.75rem;
+    background-color: var(--text-color);
+    border-radius: 10px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    transition: opacity 500ms ease-in-out;
+    display: flex;
     align-items: center;
   }
 
-  .buttons {
+
+  .album-image {
+    width: 100px;
+    height: 100px;
+    margin-right: 1rem;
+    margin-left: 0.1rem;
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  .track-info {
+    flex-grow: 1;
+    min-width: 0;
+    overflow: visible;
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.65rem; /* 간격 좁힘 */
+    height: 100%;
+    text-align: left;
+    box-sizing: border-box;
+  }
+
+  .track-name,
+  .artist-names,
+  .album-name {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 1rem;
+  }
+
+  .track-name {
+    font-size: 1.15rem;
+    padding-top: 0;
+    margin: 0;
+  }
+
+  .artist-names {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .album-name {
+    font-size: 0.7rem;
+    padding-top: 0;
+    margin: 0;
+  }
+
+
+  .duration-bar {
+    font-size: 0.75rem;
+    bottom: 0.1rem;
+    position: relative;
+    /* margin-bottom: 0.1rem; */
+    width: 100%;
+  }
+
+  .play-button {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .start-time,
+  .end-time {
+    font-size: 10px;
+  }
+
+  .buttons {
+    margin: 1rem 0;
+    size: 0.7;
   }
 
   .buttons button {
-    width: 100%;
+    min-width: 100px;
+    padding: 8px 16px;
+    font-size: 0.75rem;
   }
 }
