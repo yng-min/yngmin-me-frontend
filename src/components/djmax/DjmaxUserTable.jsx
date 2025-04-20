@@ -36,6 +36,10 @@ const DjmaxUserTable = () => {
     const removeLoadingOverlay = useRemoveLoadingOverlay()
 
     useEffect(() => {
+        setLoadingComplete(false)
+    }, [])
+
+    useEffect(() => {
         // 클라이언트 사이드에서만 window 객체 접근
         if (typeof window !== 'undefined') {
             const urlParams = new URLSearchParams(window.location.search)
@@ -84,7 +88,9 @@ const DjmaxUserTable = () => {
 
     // 타임아웃 처리: 데이터가 로딩되었으면 타임아웃 방지
     useEffect(() => {
-        if (performanceData && performanceData.floors?.length > 0) {
+        const isValid = performanceData?.floors?.length > 0
+
+        if (isValid) {
             setLoadingComplete(true)
         }
     }, [performanceData])  // performanceData 변경 시 실행
