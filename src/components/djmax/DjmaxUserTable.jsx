@@ -126,7 +126,7 @@ const DjmaxUserTable = () => {
         floor.patterns.forEach(pattern => {
             totalStats.total++
 
-            if (pattern.score === '100.00%') {
+            if (pattern.score === '100.00' || pattern.score === '100.00%') {
                 totalStats.perfect++
             }
             if (pattern.maxCombo === 1) {
