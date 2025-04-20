@@ -48,7 +48,6 @@ const DjmaxUserTable = () => {
     const IMAGE_VERSION = '20250419'  // 이미지 전체 버전. 변경되면 캐시 우회
 
     useEffect(() => {
-        // 로컬 스토리지에서 데이터 불러오기 전에 API 호출
         const fetchData = async () => {
             try {
                 // 이미지 데이터 요청
@@ -58,32 +57,26 @@ const DjmaxUserTable = () => {
                 if (songImageData && Array.isArray(songImageData)) {
                     const imageUrls = {}
                     songImageData.forEach(song => {
-                        // R2에서 제공되는 이미지 URL을 사용
                         imageUrls[song.title] = `${song.imageUrl}?v=${IMAGE_VERSION}`
                     })
-                    setSongImages(imageUrls)  // 이미지 URL을 상태에 저장
+                    setSongImages(imageUrls)
                 }
 
-                // 로컬 스토리지에서 데이터 확인
                 const storedData = localStorage.getItem(LOCAL_STORAGE_KEY)
 
                 if (storedData) {
                     try {
                         const parsed = JSON.parse(storedData)
                         const timeElapsed = new Date() - new Date(parsed.lastUpdated)
-                        if (timeElapsed < 600000 /** 10분 */ && parsed?.data?.floors) {
+                        if (timeElapsed < 600000 && parsed?.data?.floors) {
                             setPerformanceData(parsed.data)
                         }
                     } catch (error) {
                         console.error('캐싱된 데이터 파싱 오류:', error)
-                    } finally {
-                        // 데이터 로딩이 끝났을 때 removeLoadingOverlay 호출
-                        setLoadingComplete(true)  // 로딩 완료 상태 업데이트
                     }
                 }
-
             } catch (error) {
-                console.error("데이터 요청 오류:", error)
+                console.error('데이터 요청 오류:', error)
             }
         }
         fetchData()
@@ -91,10 +84,10 @@ const DjmaxUserTable = () => {
 
     // 타임아웃 처리: 데이터가 로딩되었으면 타임아웃 방지
     useEffect(() => {
-        if (loadingComplete && removeLoadingOverlay) {
-            removeLoadingOverlay()  // 로딩 오버레이 제거
+        if (performanceData && performanceData.floors?.length > 0) {
+            setLoadingComplete(true)
         }
-    }, [loadingComplete, removeLoadingOverlay])  // 로딩 완료 상태를 감지하여 오버레이 제거
+    }, [performanceData])  // performanceData 변경 시 실행
 
     if (timedOut) {
         return (
