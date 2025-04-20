@@ -109,14 +109,15 @@
 
 .djmax-user-table__row {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 120px);
+  grid-template-columns: repeat(auto-fill, 121px);
   gap: 1rem;
   width: 100%;
+  min-width: 1080px;
   max-width: 1080px;
 }
 
 .djmax-user-table__item {
-  aspect-ratio: 1 / 1.8; /* 정사각형보다 살짝 높은 비율 */
+  aspect-ratio: 1 / 1.75; /* 정사각형보다 살짝 높은 비율 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,8 +156,8 @@
 }
 
 .djmax-user-table__image img {
-  width: 105px;
-  height: 105px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   border-radius: 7.5px;
 }
