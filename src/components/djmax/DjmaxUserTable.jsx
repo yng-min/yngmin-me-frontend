@@ -52,6 +52,10 @@ const DjmaxUserTable = () => {
     const IMAGE_VERSION = '20250419'
 
     useEffect(() => {
+        let retryCount = 0
+        const maxRetries = 3
+        const retryDelay = 500 // 0.5초
+
         const fetchData = async () => {
             try {
                 const response = await fetch('/api/djmax/djmaxSongImage')
@@ -73,13 +77,32 @@ const DjmaxUserTable = () => {
                         const timeElapsed = new Date() - new Date(parsed.lastUpdated)
                         if (timeElapsed < 600000 && parsed?.data?.floors) {
                             setPerformanceData(parsed.data)
+                            return
                         }
                     } catch (error) {
                         console.error('캐싱된 데이터 파싱 오류:', error)
                     }
                 }
+
+                // 여기서 서버로 새 데이터 요청
+                const dataResponse = await fetch(`/api/djmax/performance?button=${button}&board=${board}`)
+                const newData = await dataResponse.json()
+
+                if (newData?.floors) {
+                    setPerformanceData(newData)
+                    localStorage.setItem(
+                        LOCAL_STORAGE_KEY,
+                        JSON.stringify({ data: newData, lastUpdated: new Date().toISOString() })
+                    )
+                } else {
+                    throw new Error('데이터에 floors가 없음')
+                }
             } catch (error) {
-                console.error('데이터 요청 오류:', error)
+                console.error(`데이터 요청 오류 (${retryCount + 1}/${maxRetries}):`, error)
+                if (retryCount < maxRetries) {
+                    retryCount++
+                    setTimeout(fetchData, retryDelay)
+                }
             }
         }
 
