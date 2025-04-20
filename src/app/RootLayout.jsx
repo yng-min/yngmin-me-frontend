@@ -9,6 +9,7 @@ import Header from '@/components/Header'
 import AnimatedLayoutWrapper from '@/components/AnimatedLayoutWrapper'
 import LoadingOverlayWrapper from '@/components/LoadingOverlayWrapper'
 
+import { LoadingProvider } from '@/context/LoadingContext'
 import { DeviceProvider, useDevice } from '@/context/DeviceContext'
 import { CursorProvider } from '@/context/CursorContext'
 import CustomCursorWrapper from '@/context/CustomCursorWrapper'
@@ -43,7 +44,9 @@ export default function RootLayout({ children }) {
             />
             <DeviceProvider>
                 <CursorProvider>
-                    <RootLayoutContent>{children}</RootLayoutContent>
+                    <LoadingProvider>
+                        <RootLayoutContent>{children}</RootLayoutContent>
+                    </LoadingProvider>
                 </CursorProvider>
             </DeviceProvider>
         </>

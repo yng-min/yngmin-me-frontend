@@ -3,17 +3,16 @@
 import { useEffect, useState, useRef } from 'react'
 import '@/styles/djmax/DjmaxUserTable.css'
 
-import useRemoveLoadingOverlay from '@/hooks/useRemoveLoadingOverlay'
-
 import TimeoutPageWrapper from '@/components/TimeoutPageWrapper'
 import StatBar from '@/components/tools/StatBar'
+
+import { useLoading } from '@/context/LoadingContext'
 
 const usePageTimeout = (timeoutDuration = 10000, loadingComplete) => {
     const [timedOut, setTimedOut] = useState(false)
     const timeoutRef = useRef(null)
 
     useEffect(() => {
-        // 데이터가 로딩되면 타임아웃을 취소
         if (!loadingComplete) {
             timeoutRef.current = setTimeout(() => setTimedOut(true), timeoutDuration)
         } else {
@@ -28,33 +27,33 @@ const usePageTimeout = (timeoutDuration = 10000, loadingComplete) => {
 
 const DjmaxUserTable = () => {
     const [performanceData, setPerformanceData] = useState(null)
-    const [button, setButton] = useState('4')   // 기본값 설정
-    const [board, setBoard] = useState('SC')    // 기본값 설정
-    const [songImages, setSongImages] = useState({})  // 이미지 URL 저장할 상태
-    const [loadingComplete, setLoadingComplete] = useState(false)  // 로딩 완료 여부 추적
-    const timedOut = usePageTimeout(10000, loadingComplete) // 타임아웃 체크
-    const removeLoadingOverlay = useRemoveLoadingOverlay()
+    const [button, setButton] = useState('4')
+    const [board, setBoard] = useState('SC')
+    const [songImages, setSongImages] = useState({})
+
+    const { loadingComplete, setLoadingComplete } = useLoading()
+    const timedOut = usePageTimeout(10000, loadingComplete)
 
     useEffect(() => {
-        setLoadingComplete(false)
-    }, [])
+        if (performanceData?.floors?.length > 0) {
+            setLoadingComplete(true)
+        }
+    }, [performanceData])
 
     useEffect(() => {
-        // 클라이언트 사이드에서만 window 객체 접근
         if (typeof window !== 'undefined') {
             const urlParams = new URLSearchParams(window.location.search)
-            setButton(urlParams.get('button') || '4')  // button 파라미터 없으면 '4'로 설정
-            setBoard(urlParams.get('board') || 'SC')   // board 파라미터 없으면 'SC'로 설정
+            setButton(urlParams.get('button') || '4')
+            setBoard(urlParams.get('board') || 'SC')
         }
-    }, [])  // 페이지가 렌더링될 때 한번만 실행
+    }, [])
 
     const LOCAL_STORAGE_KEY = `djmaxPerformance_${button}_${board}`
-    const IMAGE_VERSION = '20250419'  // 이미지 전체 버전. 변경되면 캐시 우회
+    const IMAGE_VERSION = '20250419'
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // 이미지 데이터 요청
                 const response = await fetch('/api/djmax/djmaxSongImage')
                 const songImageData = await response.json()
 
@@ -83,17 +82,16 @@ const DjmaxUserTable = () => {
                 console.error('데이터 요청 오류:', error)
             }
         }
-        fetchData()
-    }, [LOCAL_STORAGE_KEY])  // removeLoadingOverlay는 여기서 사용하지 않음, 타이밍에 맞춰 처리됨
 
-    // 타임아웃 처리: 데이터가 로딩되었으면 타임아웃 방지
+        fetchData()
+    }, [LOCAL_STORAGE_KEY])
+
     useEffect(() => {
         const isValid = performanceData?.floors?.length > 0
-
         if (isValid) {
             setLoadingComplete(true)
         }
-    }, [performanceData])  // performanceData 변경 시 실행
+    }, [performanceData])
 
     if (timedOut) {
         return (
@@ -103,9 +101,8 @@ const DjmaxUserTable = () => {
         )
     }
 
-    // performanceData가 null이 아니고, floors가 존재하는지 확인
     if (!performanceData || !performanceData.floors) {
-        return null  // 데이터 로딩 중에는 아무것도 렌더링하지 않음
+        return null
     }
 
     const sortedFloors = [...performanceData.floors].sort((a, b) => b.floorNumber - a.floorNumber)
@@ -133,8 +130,6 @@ const DjmaxUserTable = () => {
             }
             if (pattern.score !== '–' && pattern.score !== null && pattern.score !== undefined) {
                 totalStats.clear++
-
-                // score가 null 또는 undefined가 아니면 숫자로 변환
                 const numericScore = parseFloat(pattern.score.replace('%', ''))
                 if (!isNaN(numericScore)) {
                     numericScores.push(numericScore)
@@ -168,6 +163,7 @@ const DjmaxUserTable = () => {
                     </span>
                 </h2>
             </div>
+
             <div className="djmax-user-table_stats">
                 <div className="stat-header">
                     <h3>{button}B {board}</h3>
@@ -196,19 +192,18 @@ const DjmaxUserTable = () => {
                         </div>
                         <div className="djmax-user-table__row">
                             {floor.patterns.map((pattern, index) => {
-                                let scoreColor = ''
-                                scoreColor = 'rgba(153, 153, 153, 0.5)' // 플레이하지 않음
+                                let scoreColor = 'rgba(153, 153, 153, 0.5)'
 
                                 if (pattern.score && pattern.score !== '–') {
                                     if (!pattern.score.includes('%')) {
                                         pattern.score += '%'
                                     }
 
-                                    scoreColor = 'rgba(148, 232, 255, 0.5)' // 클리어
+                                    scoreColor = 'rgba(148, 232, 255, 0.5)'
                                     if (pattern.score === '100.00%') {
-                                        scoreColor = 'rgba(238, 50, 51, 0.95)' // 퍼펙트
+                                        scoreColor = 'rgba(238, 50, 51, 0.95)'
                                     } else if (pattern.maxCombo === 1) {
-                                        scoreColor = 'rgba(73, 237, 173, 0.75)' // 맥스콤보
+                                        scoreColor = 'rgba(73, 237, 173, 0.75)'
                                     }
                                 } else if (pattern.score === null) {
                                     pattern.score = '–'

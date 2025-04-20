@@ -9,7 +9,7 @@ import ToggleThemeButton from '@/components/buttons/ToggleThemeButton'
 import ToggleCursorButton from '@/components/buttons/ToggleCursorButton'
 import InstagramLinkButton from '@/components/buttons/InstagramLinkButton'
 
-import DjmaxUserPerformance from '@/components/djmax/DjmaxUserPerformance'
+import DjmaxDataFetcher from '@/components/djmax/DjmaxDataFetcher'
 import DjmaxUserTable from '@/components/djmax/DjmaxUserTable'
 
 const useDarkMode = () => {
@@ -47,7 +47,7 @@ const DjmaxPerformancePage = () => {
                 <InstagramLinkButton />
             </FloatingButtonGroup>
             <AnimatedLayoutWrapper className="djmax-performance">
-                <DjmaxUserPerformance setDjmaxPerformance={setDjmaxPerformance} />
+                <DjmaxDataFetcher setDjmaxPerformance={setDjmaxPerformance} />
                 <DjmaxUserTable performanceData={djmaxPerformance} />
             </AnimatedLayoutWrapper>
         </>
