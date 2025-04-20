@@ -164,13 +164,21 @@
 
 
 @media (max-width: 480px) {
+  :root {
+    --responsive-font: clamp(11.5px, 2.5vw, 14.5px);
+  }
+
   .djmax-user-table__row {
+    min-width: unset;
+    max-width: unset;
     grid-template-columns: repeat(4, 1fr); /* 4*n 구조 유지 */
     gap: 0.75rem;
   }
 
   .djmax-user-table__item {
-    aspect-ratio: 1 / 2.1;
+    /* aspect-ratio: 1 / 2.1; */
+    aspect-ratio: calc(1 / (var(--responsive-font) * 0.16));
+    min-height: calc(var(--responsive-font) * 2.75);
     padding: 8px;
   }
 
@@ -180,7 +188,7 @@
   }
 
   .djmax-user-table__title {
-    font-size: 12.5px;
+    font-size: var(--responsive-font);
     font-weight: 550;
   }
 
@@ -188,27 +196,4 @@
     font-size: 12px;
     padding: 0.1rem 0.5rem;
   }
-}
-
-.group-pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin: 1rem 0;
-}
-
-.group-pagination button {
-  padding: 0.5rem 1rem;
-  background-color: var(--text-color);
-  color: var(--bg-color);
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.group-pagination button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
 }

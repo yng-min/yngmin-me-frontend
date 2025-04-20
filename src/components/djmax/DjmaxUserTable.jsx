@@ -71,7 +71,7 @@ const DjmaxUserTable = () => {
                     try {
                         const parsed = JSON.parse(storedData)
                         const timeElapsed = new Date() - new Date(parsed.lastUpdated)
-                        if (timeElapsed < 600000 && parsed?.data?.floors) {
+                        if (timeElapsed < 600000 /** 10분 */ && parsed?.data?.floors) {
                             setPerformanceData(parsed.data)
                         }
                     } catch (error) {
