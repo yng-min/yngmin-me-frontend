@@ -6,7 +6,7 @@
     "node": "18.18.0"
   },
   "scripts": {
-    "dev": "start /B npx next dev -p 3000 && taskkill /F /IM node.exe",
+    "dev": "npx kill-port 3000 && npx next dev -p 3000",
     "build": "next build",
     "start": "next start",
     "postinstall": "patch-package"

@@ -168,6 +168,20 @@ const DjmaxUserTable = () => {
 
     const averageScore = numericScores.reduce((sum, s) => sum + s, 0) / numericScores.length
 
+    const calculateAverageScore = (patterns) => {
+        const numericScores = patterns
+            .map(pattern => {
+                if (pattern.score) {
+                    return parseFloat(pattern.score.replace('%', ''));
+                }
+                return NaN; // score가 없으면 NaN으로 처리
+            })
+            .filter(score => !isNaN(score));
+
+        const average = numericScores.reduce((sum, score) => sum + score, 0) / numericScores.length;
+        return isNaN(average) ? 0 : average; // NaN일 경우 0으로 반환
+    }
+
     return (
         <div className="djmax-user-table__wrapper">
             <div className="djmax-user-table_header">
@@ -199,67 +213,80 @@ const DjmaxUserTable = () => {
                     <StatBar label="Max Combo" value={totalStats.maxCombo} total={totalStats.total} color="rgba(73, 237, 173, 0.75)" />
                     <StatBar label="Clear" value={totalStats.clear} total={totalStats.total} color="rgba(148, 232, 255, 0.75)" />
                     <div className="djmax-user-table_over-thresholds">
-                        <StatBar label="Over 99.9%" value={totalStats.over999} total={totalStats.total} color="rgba(255, 60, 60, 0.6)" />
-                        <StatBar label="Over 99%" value={totalStats.over99} total={totalStats.total} color="rgba(255, 155, 0, 0.6)" />
-                        <StatBar label="Over 99.5%" value={totalStats.over995} total={totalStats.total} color="rgba(255, 105, 0, 0.6)" />
-                        <StatBar label="Over 97%" value={totalStats.over97} total={totalStats.total} color="rgba(255, 196, 0, 0.6)" />
+                        <StatBar label="Over 99.9%" value={totalStats.over999} total={totalStats.clear} color="rgba(255, 60, 60, 0.6)" />
+                        <StatBar label="Over 99%" value={totalStats.over99} total={totalStats.clear} color="rgba(255, 155, 0, 0.6)" />
+                        <StatBar label="Over 99.5%" value={totalStats.over995} total={totalStats.clear} color="rgba(255, 105, 0, 0.6)" />
+                        <StatBar label="Over 97%" value={totalStats.over97} total={totalStats.clear} color="rgba(255, 196, 0, 0.6)" />
                     </div>
                 </div>
             </div>
 
             <div className="djmax-user-table__container">
-                {sortedFloors.map(floor => (
-                    <div className="djmax-user-table__group" key={floor.floorNumber}>
-                        <div className="djmax-user-table__difficulty">
-                            SC{floor.floorNumber}
-                        </div>
-                        <div className="djmax-user-table__row">
-                            {floor.patterns.map((pattern, index) => {
-                                let scoreColor = 'rgba(153, 153, 153, 0.5)'
+                {sortedFloors.map(floor => {
+                    const avgScore = calculateAverageScore(floor.patterns)
 
-                                if (pattern.score && pattern.score !== '–') {
-                                    if (!pattern.score.includes('%')) {
-                                        pattern.score += '%'
+                    return (
+                        <div className="djmax-user-table__group" key={floor.floorNumber}>
+                            <div className="djmax-user-table__difficulty">
+                                SC{floor.floorNumber}
+                                <span className="djmax-user-table__avg-rate">
+                                    AVG.<br />
+                                    {typeof avgScore === 'number' ? `${avgScore.toFixed(2)}%` : '0.00%'}
+                                </span>
+                            </div>
+                            <div className="djmax-user-table__row">
+                                {floor.patterns.map((pattern, index) => {
+                                    let scoreColor = 'rgba(153, 153, 153, 0.5)'
+
+                                    if (pattern.score && pattern.score !== '–') {
+                                        if (!pattern.score.includes('%')) {
+                                            pattern.score += '%'
+                                        }
+
+                                        scoreColor = 'rgba(148, 232, 255, 0.5)'
+                                        if (pattern.score === '100.00%') {
+                                            scoreColor = 'rgba(238, 50, 51, 0.95)'
+                                        } else if (pattern.maxCombo === 1) {
+                                            scoreColor = 'rgba(73, 237, 173, 0.75)'
+                                        }
+                                    } else if (pattern.score === null) {
+                                        pattern.score = '–'
+                                    }
+                                    if (pattern.score === '–%') {
+                                        pattern.score = '–'
                                     }
 
-                                    scoreColor = 'rgba(148, 232, 255, 0.5)'
-                                    if (pattern.score === '100.00%') {
-                                        scoreColor = 'rgba(238, 50, 51, 0.95)'
-                                    } else if (pattern.maxCombo === 1) {
-                                        scoreColor = 'rgba(73, 237, 173, 0.75)'
-                                    }
-                                } else if (pattern.score === null) {
-                                    pattern.score = '–'
-                                }
-                                if (pattern.score === '–%') {
-                                    pattern.score = '–'
-                                }
-
-                                return (
-                                    <div
-                                        className="djmax-user-table__item"
-                                        key={`${floor.floorNumber}-${index}`}
-                                        role="button"
-                                    >
+                                    return (
                                         <div
-                                            className="djmax-user-table__score"
-                                            style={{ backgroundColor: scoreColor }}
+                                            className="djmax-user-table__item"
+                                            key={`${floor.floorNumber}-${index}`}
+                                            role="button"
                                         >
-                                            {pattern.score}
+                                            <div
+                                                className="djmax-user-table__score"
+                                                style={{ backgroundColor: scoreColor }}
+                                            >
+                                                {pattern.score}
+                                            </div>
+                                            <div className="djmax-user-table__image">
+                                                <img
+                                                    src={songImages[pattern.title] || '/default-image.png'}
+                                                    alt={pattern.name}
+                                                />
+                                                {pattern.scFloor && !isNaN(Number(pattern.scFloor)) && pattern.scFloor !== "" && (
+                                                    <span className="djmax-user-table__sc-floor">
+                                                        {pattern.scFloor}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="djmax-user-table__title">{pattern.name}</div>
                                         </div>
-                                        <div className="djmax-user-table__image">
-                                            <img
-                                                src={songImages[pattern.title] || '/default-image.png'}
-                                                alt={pattern.name}
-                                            />
-                                        </div>
-                                        <div className="djmax-user-table__title">{pattern.name}</div>
-                                    </div>
-                                )
-                            })}
+                                    )
+                                })}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    )
+                })}
             </div>
         </div>
     )
