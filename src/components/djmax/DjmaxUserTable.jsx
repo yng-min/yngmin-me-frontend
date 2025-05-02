@@ -166,7 +166,8 @@ const DjmaxUserTable = () => {
         })
     })
 
-    const averageScore = numericScores.reduce((sum, s) => sum + s, 0) / numericScores.length
+    const averageScore = numericScores.reduce((sum, s) => sum + s, 0) / numericScores.length;
+    const truncatedAverageScore = Math.floor(averageScore * 100) / 100;  // 소수점 둘째 자리까지 버림
 
     const calculateAverageScore = (patterns) => {
         const numericScores = patterns
@@ -178,9 +179,12 @@ const DjmaxUserTable = () => {
             })
             .filter(score => !isNaN(score));
 
+        if (numericScores.length === 0) return 0;
+
         const average = numericScores.reduce((sum, score) => sum + score, 0) / numericScores.length;
-        return isNaN(average) ? 0 : average; // NaN일 경우 0으로 반환
-    }
+        const truncated = Math.floor(average * 100) / 100; // 소수점 둘째 자리까지 버림
+        return truncated; // 버림된 평균값 반환
+    };
 
     return (
         <div className="djmax-user-table__wrapper">
@@ -205,7 +209,7 @@ const DjmaxUserTable = () => {
                 <div className="stat-header">
                     <h3>{button}B {board}</h3>
                     <span className="score-summary">
-                        AVG. {averageScore.toFixed(2)}%
+                        AVG. {truncatedAverageScore.toFixed(2)}%
                     </span>
                 </div>
                 <div className="djmax-user-table_overall">
