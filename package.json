@@ -6,7 +6,8 @@
     "node": "18.18.0"
   },
   "scripts": {
-    "dev": "npx kill-port 3000 && npx next dev -p 3000",
+    "kill-port": "powershell -Command \"Get-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess | Stop-Process -Force\"",
+    "dev": "npm run kill-port && next dev -p 3000",
     "build": "next build",
     "start": "next start",
     "postinstall": "patch-package"
